@@ -39,6 +39,10 @@ Depois disso diga que a equipe entrará em contato para confirmar."""
 def home():
     return render_template('index.html')
 
+@app.route('/painel')
+def painel():
+    return render_template('painel.html')
+
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.json
