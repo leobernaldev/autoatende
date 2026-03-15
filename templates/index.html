@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoAtende</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .chat-container { width: 400px; height: 600px; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; }
+        .chat-header { background: #075e54; color: white; padding: 20px; text-align: center; }
+        .chat-header h2 { font-size: 20px; }
+        .chat-header p { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .message { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+        .message.bot { background: #f0f0f0; color: #333; align-self: flex-start; border-radius: 0 12px 12px 12px; }
+        .message.user { background: #075e54; color: white; align-self: flex-end; border-radius: 12px 0 12px 12px; }
+        .chat-footer { padding: 16px; border-top: 1px solid #eee; }
+        .typing { font-size: 12px; color: #999; margin-bottom: 8px; min-height: 16px; }
+        .input-row { display: flex; gap: 10px; }
+        .input-row input { flex: 1; padding: 10px 14px; border: 1px solid #ddd; border-radius: 24px; outline: none; font-size: 14px; }
+        .input-row button { background: #075e54; color: white; border: none; padding: 10px 18px; border-radius: 24px; cursor: pointer; font-size: 14px; }
+        .input-row button:hover { background: #128c7e; }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>🤖 AutoAtende</h2>
+            <p>Assistente virtual • Online</p>
+        </div>
+        <div class="chat-messages" id="messages">
+            <div class="message bot">Olá! Seja bem-vindo! Como posso te ajudar hoje? 😊</div>
+        </div>
+        <div class="chat-footer">
+            <div class="typing" id="typing"></div>
+            <div class="input-row">
+                <input type="text" id="input" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter') enviar()">
+                <button onclick="enviar()">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sessaoId = Math.random().toString(36).substr(2, 9);
+
+        async function enviar() {
+            const input = document.getElementById('input');
+            const mensagem = input.value.trim();
+            if (!mensagem) return;
+
+            adicionarMensagem(mensagem, 'user');
+            input.value = '';
+            document.getElementById('typing').textContent = 'AutoAtende está digitando...';
+
+            try {
+                const resposta = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mensagem, sessao_id: sessaoId })
+                });
+                const data = await resposta.json();
+                document.getElementById('typing').textContent = '';
+                adicionarMensagem(data.resposta, 'bot');
+            } catch(e) {
+                document.getElementById('typing').textContent = '';
+                adicionarMensagem('Erro ao conectar. Tente novamente.', 'bot');
+            }
+        }
+
+        function adicionarMensagem(texto, tipo) {
+            const messages = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = 'message ' + tipo;
+            div.textContent = texto;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
+</body>
+</html>
