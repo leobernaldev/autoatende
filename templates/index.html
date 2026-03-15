@@ -291,47 +291,25 @@
 
     <script>
         const sessaoId = Math.random().toString(36).substr(2, 9);
-        let dadosPaciente = { nome: '', telefone: '', horario: '' };
-        let coletandoDados = false;
-        let etapa = '';
-        let conversaCompleta = [];
 
         function enviarRapido(texto) {
             document.getElementById('input').value = texto;
             enviar();
         }
 
-        function verificarAgendamento(mensagem, resposta) {
-            const textoCompleto = (mensagem + ' ' + resposta).toLowerCase();
-            if (textoCompleto.includes('nome completo') || textoCompleto.includes('qual seu nome')) {
-                coletandoDados = true;
-                etapa = 'nome';
-            }
-            if (etapa === 'nome' && !dadosPaciente.nome && coletandoDados) {
-                dadosPaciente.nome = mensagem;
-                etapa = 'telefone';
-            } else if (etapa === 'telefone' && !dadosPaciente.telefone) {
-                dadosPaciente.telefone = mensagem;
-                etapa = 'horario';
-            } else if (etapa === 'horario' && !dadosPaciente.horario) {
-                dadosPaciente.horario = mensagem;
-                enviarEmailClinica(resposta);
-            }
-        }
-
-        function enviarEmailClinica(ultimaMensagem) {
-            if (!dadosPaciente.nome || !dadosPaciente.telefone) return;
+        function verificarAgendamento(agendamento) {
+            if (!agendamento) return;
+            console.log('Enviando email com dados:', agendamento);
             emailjs.send('service_brxrzbw', 'template_6y4l5ch', {
-                nome_paciente: dadosPaciente.nome,
-                telefone: dadosPaciente.telefone,
-                horario: dadosPaciente.horario || 'Não informado',
-                message: ultimaMensagem
+                nome_paciente: agendamento.nome,
+                telefone: agendamento.telefone,
+                horario: agendamento.horario,
+                message: 'Agendamento realizado pelo site'
             }).then(() => {
                 console.log('Email enviado para a clínica!');
+            }).catch((err) => {
+                console.error('Erro ao enviar email:', err);
             });
-            dadosPaciente = { nome: '', telefone: '', horario: '' };
-            coletandoDados = false;
-            etapa = '';
         }
 
         async function enviar() {
@@ -353,7 +331,7 @@
                 const data = await resposta.json();
                 document.getElementById('typing').textContent = '';
                 adicionarMensagem(data.resposta, 'bot');
-                verificarAgendamento(mensagem, data.resposta);
+                verificarAgendamento(data.agendamento);
             } catch(e) {
                 document.getElementById('typing').textContent = '';
                 adicionarMensagem('Desculpe, ocorreu um erro. Tente novamente.', 'bot');
