@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clínica Bianca Bernal</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>emailjs.init("-YE9T-ycpfjcVBHdO");</script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: #f9f5f0; color: #333; }
@@ -41,18 +43,10 @@
         }
         .hero-btn:hover { background: #2d6a4f; }
 
-        .services {
-            padding: 50px 40px;
-            text-align: center;
-        }
+        .services { padding: 50px 40px; text-align: center; }
         .services h2 { font-size: 26px; color: #2d6a4f; margin-bottom: 8px; }
         .services p { color: #777; margin-bottom: 36px; }
-        .services-grid {
-            display: flex;
-            gap: 24px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        .services-grid { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
         .service-card {
             background: white;
             border-radius: 16px;
@@ -79,10 +73,7 @@
         .info-item h3 { font-size: 18px; margin-bottom: 8px; opacity: 0.85; }
         .info-item p { font-size: 15px; line-height: 1.7; }
 
-        .chat-section {
-            padding: 50px 40px;
-            text-align: center;
-        }
+        .chat-section { padding: 50px 40px; text-align: center; }
         .chat-section h2 { font-size: 26px; color: #2d6a4f; margin-bottom: 8px; }
         .chat-section > p { color: #777; margin-bottom: 30px; }
         .chat-container {
@@ -300,10 +291,47 @@
 
     <script>
         const sessaoId = Math.random().toString(36).substr(2, 9);
+        let dadosPaciente = { nome: '', telefone: '', horario: '' };
+        let coletandoDados = false;
+        let etapa = '';
+        let conversaCompleta = [];
 
         function enviarRapido(texto) {
             document.getElementById('input').value = texto;
             enviar();
+        }
+
+        function verificarAgendamento(mensagem, resposta) {
+            const textoCompleto = (mensagem + ' ' + resposta).toLowerCase();
+            if (textoCompleto.includes('nome completo') || textoCompleto.includes('qual seu nome')) {
+                coletandoDados = true;
+                etapa = 'nome';
+            }
+            if (etapa === 'nome' && !dadosPaciente.nome && coletandoDados) {
+                dadosPaciente.nome = mensagem;
+                etapa = 'telefone';
+            } else if (etapa === 'telefone' && !dadosPaciente.telefone) {
+                dadosPaciente.telefone = mensagem;
+                etapa = 'horario';
+            } else if (etapa === 'horario' && !dadosPaciente.horario) {
+                dadosPaciente.horario = mensagem;
+                enviarEmailClinica(resposta);
+            }
+        }
+
+        function enviarEmailClinica(ultimaMensagem) {
+            if (!dadosPaciente.nome || !dadosPaciente.telefone) return;
+            emailjs.send('service_brxrzbw', 'template_6y4l5ch', {
+                nome_paciente: dadosPaciente.nome,
+                telefone: dadosPaciente.telefone,
+                horario: dadosPaciente.horario || 'Não informado',
+                message: ultimaMensagem
+            }).then(() => {
+                console.log('Email enviado para a clínica!');
+            });
+            dadosPaciente = { nome: '', telefone: '', horario: '' };
+            coletandoDados = false;
+            etapa = '';
         }
 
         async function enviar() {
@@ -325,6 +353,7 @@
                 const data = await resposta.json();
                 document.getElementById('typing').textContent = '';
                 adicionarMensagem(data.resposta, 'bot');
+                verificarAgendamento(mensagem, data.resposta);
             } catch(e) {
                 document.getElementById('typing').textContent = '';
                 adicionarMensagem('Desculpe, ocorreu um erro. Tente novamente.', 'bot');
