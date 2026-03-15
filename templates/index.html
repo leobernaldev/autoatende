@@ -299,7 +299,18 @@
 
         function verificarAgendamento(agendamento) {
             if (!agendamento) return;
-            console.log('Enviando email com dados:', agendamento);
+
+            // Salva no localStorage para o painel
+            const agendamentos = JSON.parse(localStorage.getItem('agendamentos') || '[]');
+            agendamentos.push({
+                nome: agendamento.nome,
+                telefone: agendamento.telefone,
+                horario: agendamento.horario,
+                data: new Date().toISOString()
+            });
+            localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
+
+            // Envia email para a clínica
             emailjs.send('service_brxrzbw', 'template_6y4l5ch', {
                 nome_paciente: agendamento.nome,
                 telefone: agendamento.telefone,
