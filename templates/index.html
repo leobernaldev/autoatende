@@ -164,6 +164,57 @@
         }
         .input-row button:hover { opacity: 0.9; }
 
+        /* BOTÃO WHATSAPP FLUTUANTE */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: pulse 2s infinite;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 28px rgba(37,211,102,0.6);
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+            50% { box-shadow: 0 4px 30px rgba(37,211,102,0.7); }
+            100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+        }
+
+        /* BOTÃO WHATSAPP NO CHAT */
+        .whatsapp-chat-btn {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: opacity 0.2s;
+        }
+        .whatsapp-chat-btn:hover { opacity: 0.9; }
+
         .footer {
             background: #1b4332;
             color: white;
@@ -194,6 +245,11 @@
     </style>
 </head>
 <body>
+
+    <!-- BOTÃO FLUTUANTE WHATSAPP -->
+    <button class="whatsapp-float" onclick="abrirWhatsApp()">
+        <span>💬</span> Agendar Avaliação Gratuita
+    </button>
 
     <div class="header">
         <div class="header-logo">
@@ -256,7 +312,7 @@
 
     <div class="chat-section">
         <h2>Olá, como podemos te ajudar? 😊</h2>
-        <p>Estamos aqui para tirar suas dúvidas e agendar sua consulta!</p>
+        <p>Estamos aqui para tirar suas dúvidas e agendar sua avaliação gratuita!</p>
         <div class="chat-container">
             <div class="chat-header">
                 <div class="chat-avatar">🌿</div>
@@ -269,13 +325,14 @@
                 <div class="message bot">Olá! 😊 Bem-vindo à Clínica Bianca Bernal. Como posso te ajudar hoje?</div>
             </div>
             <div class="quick-replies" id="quick-replies">
-                <button class="quick-btn" onclick="enviarRapido('Quero agendar uma consulta')">📅 Agendar</button>
+                <button class="quick-btn" onclick="enviarRapido('Quero agendar uma avaliação gratuita')">📅 Agendar</button>
                 <button class="quick-btn" onclick="enviarRapido('Quais são os serviços?')">🩺 Serviços</button>
                 <button class="quick-btn" onclick="enviarRapido('Qual o endereço?')">📍 Endereço</button>
                 <button class="quick-btn" onclick="enviarRapido('Qual o horário de atendimento?')">🕐 Horários</button>
             </div>
             <div class="chat-footer">
                 <div class="typing" id="typing"></div>
+                <div id="whatsapp-area"></div>
                 <div class="input-row">
                     <input type="text" id="input" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter') enviar()">
                     <button onclick="enviar()">Enviar</button>
@@ -291,6 +348,23 @@
 
     <script>
         const sessaoId = Math.random().toString(36).substr(2, 9);
+        const WHATSAPP = '5511984052271';
+
+        function abrirWhatsApp(nome, diagnostico) {
+            let msg = 'Olá! Gostaria de agendar uma avaliação gratuita na Clínica Bianca Bernal.';
+            if (nome) msg = `Olá! Meu nome é ${nome} e gostaria de agendar uma avaliação gratuita. Diagnóstico: ${diagnostico}`;
+            const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+
+        function mostrarBotaoWhatsApp(nome, diagnostico) {
+            const area = document.getElementById('whatsapp-area');
+            area.innerHTML = `
+                <button class="whatsapp-chat-btn" onclick="abrirWhatsApp('${nome}', '${diagnostico}')">
+                    ✅ Sim! Quero agendar minha avaliação gratuita
+                </button>
+            `;
+        }
 
         function enviarRapido(texto) {
             document.getElementById('input').value = texto;
@@ -306,16 +380,20 @@
                 nome: agendamento.nome,
                 telefone: agendamento.telefone,
                 horario: agendamento.horario,
+                diagnostico: agendamento.diagnostico,
                 data: new Date().toISOString()
             });
             localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
+
+            // Mostra botão WhatsApp no chat
+            mostrarBotaoWhatsApp(agendamento.nome, agendamento.diagnostico);
 
             // Envia email para a clínica
             emailjs.send('service_brxrzbw', 'template_6y4l5ch', {
                 nome_paciente: agendamento.nome,
                 telefone: agendamento.telefone,
                 horario: agendamento.horario,
-                message: 'Agendamento realizado pelo site'
+                message: `Diagnóstico: ${agendamento.diagnostico}`
             }).then(() => {
                 console.log('Email enviado para a clínica!');
             }).catch((err) => {

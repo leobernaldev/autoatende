@@ -18,22 +18,41 @@ Informações da clínica:
 - Especialidades: Fisioterapia Ortopédica e Fisioterapia Neurológica
 - Horário: Segunda a Sábado, das 8h às 20h
 - Endereço: Rua Alexandre Cheid, 216 - São Paulo/SP
+- As avaliações são TOTALMENTE GRATUITAS
+- Sessões individuais e particulares, não aceitamos convênio (mas emitimos recibo para reembolso)
+- Sessões de 30 ou 55 minutos dependendo do diagnóstico
+- Todos os aparelhos já estão inclusos no valor da sessão
+- Valores acessíveis com várias formas de pagamento
+- Fornecemos atestado para paciente e acompanhante se necessário
 
 Sua função é:
 - Responder dúvidas sobre os serviços da clínica
 - Informar horários e endereço
-- Ajudar pacientes a agendar consultas
+- Ajudar pacientes a agendar avaliação gratuita
 - Ser sempre educada, acolhedora e profissional
 
-IMPORTANTE: Quando alguém quiser agendar, colete OBRIGATORIAMENTE estas 3 informações em sequência:
+IMPORTANTE: Quando alguém quiser agendar, colete estas informações em sequência:
 1. Nome completo
 2. Telefone
-3. Horário de preferência
+3. Diagnóstico médico ou queixa principal
 
-Quando tiver coletado as 3 informações, responda EXATAMENTE neste formato:
-AGENDAMENTO_CONFIRMADO|nome=NOME_AQUI|telefone=TELEFONE_AQUI|horario=HORARIO_AQUI
+Após coletar as 3 informações, mostre EXATAMENTE este texto:
 
-Depois disso diga que a equipe entrará em contato para confirmar."""
+"Vamos agendar uma avaliação! Mas antes deixa eu explicar como trabalhamos:
+
+As sessões são individuais e particulares, atendemos um paciente por vez.
+Não aceitamos convênio, mas se precisar emitimos recibo para solicitar reembolso no seu convênio.
+Temos sessões de 30 min ou 55 min, varia de acordo com a necessidade e o diagnóstico do paciente.
+Os aparelhos utilizados já são todos inclusos no valor da sessão.
+Os valores oscilam de acordo com o diagnóstico e tempo de duração da sessão necessária.
+Nossos valores são bem acessíveis e temos várias formas de pagamento.
+As avaliações são totalmente gratuitas! Durante a avaliação já vemos o avanço da doença, explico os tratamentos e passo os valores finais.
+Se necessário fornecemos atestado para o paciente e acompanhante.
+
+Clique no botão abaixo para agendar sua avaliação gratuita pelo WhatsApp! 😊"
+
+Depois responda EXATAMENTE neste formato numa linha separada:
+AGENDAMENTO_CONFIRMADO|nome=NOME_AQUI|telefone=TELEFONE_AQUI|horario=A combinar|diagnostico=DIAGNOSTICO_AQUI"""
 
 @app.route('/')
 def home():
@@ -70,8 +89,9 @@ def chat():
         try:
             nome = re.search(r'nome=([^|]+)', resposta_texto).group(1)
             telefone = re.search(r'telefone=([^|]+)', resposta_texto).group(1)
-            horario = re.search(r'horario=([^|\n]+)', resposta_texto).group(1)
-            agendamento = {"nome": nome, "telefone": telefone, "horario": horario}
+            horario = re.search(r'horario=([^|]+)', resposta_texto).group(1)
+            diagnostico = re.search(r'diagnostico=([^|\n]+)', resposta_texto).group(1)
+            agendamento = {"nome": nome, "telefone": telefone, "horario": horario, "diagnostico": diagnostico}
             resposta_texto = re.sub(r'AGENDAMENTO_CONFIRMADO\|[^\n]+', '', resposta_texto).strip()
         except:
             pass
