@@ -62,6 +62,10 @@ def home():
 def painel():
     return render_template('painel.html')
 
+@app.route('/vendas')
+def vendas():
+    return render_template('vendas.html')
+
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.json

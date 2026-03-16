@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoAtende — Atendimento com IA para seu negócio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0a0e1a; color: #fff; overflow-x: hidden; }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(10,14,26,0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .nav-logo { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #4f8ef7, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-btn {
+            background: linear-gradient(135deg, #4f8ef7, #7c3aed);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .nav-btn:hover { opacity: 0.9; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 40px 80px;
+            background: radial-gradient(ellipse at top, #1a1f3a 0%, #0a0e1a 70%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(79,142,247,0.15) 0%, transparent 70%);
+            top: -100px; left: 50%;
+            transform: translateX(-50%);
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(79,142,247,0.15);
+            border: 1px solid rgba(79,142,247,0.3);
+            color: #4f8ef7;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        .hero h1 {
+            font-size: 58px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            max-width: 800px;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #4f8ef7, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 20px;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+        .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            background: linear-gradient(135deg, #4f8ef7, #7c3aed);
+            color: white;
+            border: none;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 30px rgba(79,142,247,0.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(79,142,247,0.4); }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1.5px solid rgba(255,255,255,0.2);
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: border 0.2s;
+        }
+        .btn-secondary:hover { border-color: rgba(255,255,255,0.5); }
+
+        /* STATS */
+        .stats {
+            background: rgba(255,255,255,0.03);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 40px 60px;
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+        .stat-item .num { font-size: 36px; font-weight: 800; background: linear-gradient(135deg, #4f8ef7, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-item .label { font-size: 14px; color: #64748b; margin-top: 4px; }
+
+        /* COMO FUNCIONA */
+        .section { padding: 100px 60px; text-align: center; }
+        .section-badge {
+            display: inline-block;
+            background: rgba(79,142,247,0.1);
+            border: 1px solid rgba(79,142,247,0.2);
+            color: #4f8ef7;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .section h2 { font-size: 40px; font-weight: 800; margin-bottom: 16px; }
+        .section > p { font-size: 17px; color: #64748b; max-width: 500px; margin: 0 auto 60px; }
+
+        .steps { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+        .step-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 36px 28px;
+            width: 280px;
+            text-align: left;
+            transition: border 0.2s, transform 0.2s;
+        }
+        .step-card:hover { border-color: rgba(79,142,247,0.3); transform: translateY(-4px); }
+        .step-num {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, #4f8ef7, #7c3aed);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; font-weight: 800;
+            margin-bottom: 20px;
+        }
+        .step-card h3 { font-size: 18px; margin-bottom: 10px; }
+        .step-card p { font-size: 14px; color: #64748b; line-height: 1.6; }
+
+        /* FEATURES */
+        .features-section {
+            padding: 100px 60px;
+            background: rgba(255,255,255,0.02);
+        }
+        .features-grid {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 28px 24px;
+            width: 220px;
+            text-align: center;
+            transition: border 0.2s;
+        }
+        .feature-card:hover { border-color: rgba(79,142,247,0.3); }
+        .feature-icon { font-size: 32px; margin-bottom: 14px; }
+        .feature-card h3 { font-size: 15px; margin-bottom: 8px; }
+        .feature-card p { font-size: 13px; color: #64748b; line-height: 1.5; }
+
+        /* DEPOIMENTO */
+        .testimonial-section { padding: 100px 60px; text-align: center; }
+        .testimonial-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(79,142,247,0.2);
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .testimonial-card .stars { font-size: 24px; margin-bottom: 20px; }
+        .testimonial-card blockquote { font-size: 20px; line-height: 1.7; color: #e2e8f0; font-style: italic; margin-bottom: 28px; }
+        .testimonial-author { display: flex; align-items: center; justify-content: center; gap: 14px; }
+        .author-avatar {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, #4f8ef7, #7c3aed);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+        }
+        .author-info h4 { font-size: 16px; font-weight: 700; }
+        .author-info p { font-size: 13px; color: #64748b; }
+
+        /* PREÇOS */
+        .pricing-section { padding: 100px 60px; text-align: center; }
+        .pricing-grid { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-top: 60px; }
+        .pricing-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 40px 32px;
+            width: 300px;
+            text-align: left;
+            transition: transform 0.2s;
+        }
+        .pricing-card.popular {
+            border-color: rgba(79,142,247,0.5);
+            background: rgba(79,142,247,0.06);
+            transform: scale(1.05);
+        }
+        .popular-badge {
+            background: linear-gradient(135deg, #4f8ef7, #7c3aed);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+        .pricing-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .pricing-card .price { font-size: 48px; font-weight: 900; margin: 16px 0 4px; }
+        .pricing-card .price span { font-size: 16px; font-weight: 400; color: #64748b; }
+        .pricing-card .setup { font-size: 13px; color: #64748b; margin-bottom: 28px; }
+        .pricing-features { list-style: none; margin-bottom: 32px; }
+        .pricing-features li { padding: 8px 0; font-size: 14px; color: #94a3b8; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .pricing-features li::before { content: '✓'; color: #4f8ef7; font-weight: 700; }
+        .pricing-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s;
+        }
+        .pricing-btn.primary { background: linear-gradient(135deg, #4f8ef7, #7c3aed); color: white; }
+        .pricing-btn.secondary { background: rgba(255,255,255,0.08); color: white; }
+        .pricing-btn:hover { opacity: 0.85; }
+
+        /* FAQ */
+        .faq-section { padding: 100px 60px; max-width: 800px; margin: 0 auto; }
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 24px 0;
+            cursor: pointer;
+        }
+        .faq-question { font-size: 17px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        .faq-answer { font-size: 15px; color: #64748b; line-height: 1.7; margin-top: 14px; display: none; }
+        .faq-item.open .faq-answer { display: block; }
+        .faq-item.open .faq-arrow { transform: rotate(180deg); }
+        .faq-arrow { transition: transform 0.2s; font-size: 20px; }
+
+        /* CTA FINAL */
+        .cta-section {
+            padding: 100px 60px;
+            text-align: center;
+            background: radial-gradient(ellipse at center, #1a1f3a 0%, #0a0e1a 70%);
+        }
+        .cta-section h2 { font-size: 48px; font-weight: 900; margin-bottom: 20px; }
+        .cta-section p { font-size: 18px; color: #64748b; max-width: 500px; margin: 0 auto 40px; }
+
+        /* FOOTER */
+        footer {
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 40px 60px;
+            text-align: center;
+            color: #334155;
+            font-size: 14px;
+        }
+
+        /* DEMO CHAT */
+        .demo-section {
+            padding: 100px 60px;
+            text-align: center;
+            background: rgba(255,255,255,0.02);
+        }
+        .demo-container {
+            max-width: 420px;
+            margin: 60px auto 0;
+            background: #0f1629;
+            border: 1px solid rgba(79,142,247,0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .demo-header {
+            background: linear-gradient(135deg, #4f8ef7, #7c3aed);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .demo-avatar {
+            width: 38px; height: 38px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .demo-header-info h3 { font-size: 15px; }
+        .demo-header-info p { font-size: 11px; opacity: 0.8; }
+        .demo-dot { width: 7px; height: 7px; background: #4ade80; border-radius: 50%; display: inline-block; margin-right: 4px; }
+        .demo-messages {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 200px;
+        }
+        .demo-msg {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .demo-msg.bot { background: rgba(255,255,255,0.07); align-self: flex-start; border-radius: 4px 14px 14px 14px; }
+        .demo-msg.user { background: linear-gradient(135deg, #4f8ef7, #7c3aed); align-self: flex-end; border-radius: 14px 4px 14px 14px; }
+        .demo-input {
+            padding: 14px 16px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            gap: 10px;
+        }
+        .demo-input input {
+            flex: 1;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 8px 14px;
+            color: white;
+            font-size: 13px;
+            outline: none;
+        }
+        .demo-input button {
+            background: linear-gradient(135deg, #4f8ef7, #7c3aed);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-logo">⚡ AutoAtende</div>
+        <button class="nav-btn" onclick="abrirWhatsApp()">Falar com Especialista</button>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div>
+            <div class="hero-badge">🤖 INTELIGÊNCIA ARTIFICIAL PARA SEU NEGÓCIO</div>
+            <h1>Seu negócio atendendo <span>24 horas por dia</span> com IA</h1>
+            <p>Chatbot inteligente personalizado para o seu negócio. Responde clientes, agenda consultas e notifica você automaticamente — mesmo enquanto você dorme.</p>
+            <div class="hero-btns">
+                <button class="btn-primary" onclick="abrirWhatsApp()">🚀 Quero para meu negócio</button>
+                <button class="btn-secondary" onclick="document.querySelector('.demo-section').scrollIntoView({behavior:'smooth'})">Ver demonstração</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stat-item">
+            <div class="num">24/7</div>
+            <div class="label">Atendimento contínuo</div>
+        </div>
+        <div class="stat-item">
+            <div class="num">&lt; 2s</div>
+            <div class="label">Tempo de resposta</div>
+        </div>
+        <div class="stat-item">
+            <div class="num">100%</div>
+            <div class="label">Personalizado para você</div>
+        </div>
+        <div class="stat-item">
+            <div class="num">R$0</div>
+            <div class="label">Sem taxa de setup</div>
+        </div>
+    </div>
+
+    <!-- COMO FUNCIONA -->
+    <div class="section">
+        <div class="section-badge">COMO FUNCIONA</div>
+        <h2>Simples, rápido e eficiente</h2>
+        <p>Em menos de 48 horas seu negócio já está com IA atendendo seus clientes</p>
+        <div class="steps">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <h3>Você nos conta sobre seu negócio</h3>
+                <p>Serviços, horários, localização e como você quer atender seus clientes.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <h3>A gente configura tudo por você</h3>
+                <p>Criamos o chatbot personalizado, o site e todo o sistema em até 48 horas.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <h3>Seus clientes já são atendidos</h3>
+                <p>O sistema entra no ar e você recebe notificações de cada novo contato.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DEMO -->
+    <div class="demo-section">
+        <div class="section-badge">DEMONSTRAÇÃO</div>
+        <h2>Veja como funciona na prática</h2>
+        <p style="color:#64748b;font-size:17px;margin-top:12px;">Este é um exemplo real do que seus clientes vão ver</p>
+        <div class="demo-container">
+            <div class="demo-header">
+                <div class="demo-avatar">🤖</div>
+                <div class="demo-header-info">
+                    <h3>Assistente Virtual</h3>
+                    <p><span class="demo-dot"></span>Online agora</p>
+                </div>
+            </div>
+            <div class="demo-messages" id="demo-messages">
+                <div class="demo-msg bot">Olá! 😊 Bem-vindo! Como posso te ajudar hoje?</div>
+            </div>
+            <div class="demo-input">
+                <input type="text" id="demo-input" placeholder="Digite uma mensagem..." onkeypress="if(event.key==='Enter') demoEnviar()">
+                <button onclick="demoEnviar()">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="features-section">
+        <div style="text-align:center;margin-bottom:60px;">
+            <div class="section-badge">FUNCIONALIDADES</div>
+            <h2 style="font-size:40px;font-weight:800;margin-top:12px;">Tudo que seu negócio precisa</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>IA Avançada</h3>
+                <p>Responde perguntas complexas naturalmente, como um humano.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Integração WhatsApp</h3>
+                <p>Botão direto para o WhatsApp do dono quando necessário.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📧</div>
+                <h3>Notificação por Email</h3>
+                <p>Receba um email a cada novo agendamento ou contato.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Painel de Controle</h3>
+                <p>Veja todos os agendamentos e contatos em um painel exclusivo.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>100% Personalizado</h3>
+                <p>Site e chatbot com a identidade visual do seu negócio.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Entrega em 48h</h3>
+                <p>Seu sistema no ar em menos de 2 dias úteis.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DEPOIMENTO -->
+    <div class="testimonial-section">
+        <div class="section-badge">DEPOIMENTO</div>
+        <h2 style="font-size:40px;font-weight:800;margin-bottom:48px;">Quem já usa, aprova</h2>
+        <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <blockquote>"O AutoAtende transformou o atendimento da minha clínica. Os pacientes conseguem tirar dúvidas e agendar a qualquer hora, e eu recebo notificação imediatamente. Profissional e fácil de usar!"</blockquote>
+            <div class="testimonial-author">
+                <div class="author-avatar">👩‍⚕️</div>
+                <div class="author-info">
+                    <h4>Dra. Bianca Bernal</h4>
+                    <p>Fisioterapeuta — Clínica Bianca Bernal, São Paulo/SP</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PREÇOS -->
+    <div class="pricing-section">
+        <div class="section-badge">PLANOS</div>
+        <h2 style="font-size:40px;font-weight:800;margin-bottom:12px;">Investimento que se paga sozinho</h2>
+        <p style="color:#64748b;font-size:17px;">Um cliente a mais por mês já paga o sistema</p>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Starter</h3>
+                <div class="price">R$99<span>/mês</span></div>
+                <div class="setup">Sem taxa de setup</div>
+                <ul class="pricing-features">
+                    <li>Site personalizado com IA</li>
+                    <li>Chat inteligente 24/7</li>
+                    <li>Notificação por email</li>
+                    <li>Botão WhatsApp</li>
+                    <li>Suporte por WhatsApp</li>
+                </ul>
+                <button class="pricing-btn secondary" onclick="abrirWhatsApp()">Começar agora</button>
+            </div>
+            <div class="pricing-card popular">
+                <div class="popular-badge">⭐ MAIS POPULAR</div>
+                <h3>Pro</h3>
+                <div class="price">R$179<span>/mês</span></div>
+                <div class="setup">Sem taxa de setup</div>
+                <ul class="pricing-features">
+                    <li>Tudo do Starter</li>
+                    <li>Painel de agendamentos</li>
+                    <li>Domínio personalizado</li>
+                    <li>Múltiplos atendentes IA</li>
+                    <li>Relatórios mensais</li>
+                    <li>Suporte prioritário</li>
+                </ul>
+                <button class="pricing-btn primary" onclick="abrirWhatsApp()">Começar agora</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+        <div style="text-align:center;margin-bottom:48px;">
+            <div class="section-badge">DÚVIDAS</div>
+            <h2 style="font-size:40px;font-weight:800;margin-top:12px;">Perguntas frequentes</h2>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Para que tipo de negócio funciona? <span class="faq-arrow">▼</span></div>
+            <div class="faq-answer">Para qualquer negócio que atenda clientes — clínicas, salões, consultórios, lojas, restaurantes, academias, escritórios e muito mais.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Preciso saber programar? <span class="faq-arrow">▼</span></div>
+            <div class="faq-answer">Não! A gente cuida de tudo. Você só nos conta sobre seu negócio e a gente configura e entrega tudo pronto.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Quanto tempo leva para ficar pronto? <span class="faq-arrow">▼</span></div>
+            <div class="faq-answer">Em até 48 horas úteis após o pagamento e envio das informações do negócio.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Posso cancelar quando quiser? <span class="faq-arrow">▼</span></div>
+            <div class="faq-answer">Sim! Não há fidelidade. Você pode cancelar a qualquer momento sem multas.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">A IA responde errado às vezes? <span class="faq-arrow">▼</span></div>
+            <div class="faq-answer">A IA é treinada com as informações do seu negócio e responde com alta precisão. Quando não souber algo, ela pede para o cliente entrar em contato diretamente.</div>
+        </div>
+    </div>
+
+    <!-- CTA FINAL -->
+    <div class="cta-section">
+        <h2>Pronto para automatizar<br>seu atendimento?</h2>
+        <p>Junte-se aos negócios que já estão atendendo 24 horas por dia com IA</p>
+        <button class="btn-primary" style="font-size:18px;padding:18px:40px;" onclick="abrirWhatsApp()">
+            🚀 Quero começar agora
+        </button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p style="font-size:18px;font-weight:700;background:linear-gradient(135deg,#4f8ef7,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;">⚡ AutoAtende</p>
+        <p>Atendimento inteligente com IA para pequenos negócios</p>
+        <p style="margin-top:16px;">© 2025 AutoAtende — Todos os direitos reservados</p>
+    </footer>
+
+    <script>
+        const WHATSAPP = '5511984052271';
+
+        function abrirWhatsApp() {
+            const msg = 'Olá! Vi o site do AutoAtende e gostaria de saber mais sobre como funciona para o meu negócio.';
+            window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function toggleFaq(el) {
+            el.classList.toggle('open');
+        }
+
+        // DEMO CHAT
+        const respostas = [
+            'Olá! Somos especializados em criar assistentes virtuais com IA para o seu negócio. Como posso te ajudar?',
+            'Ótimo! O AutoAtende funciona 24 horas por dia, responde seus clientes automaticamente e te notifica por email e WhatsApp a cada novo contato.',
+            'O processo é simples: você nos conta sobre seu negócio e em até 48 horas tudo está no ar! Quer saber mais sobre os planos?',
+            'Nossos planos começam em R$99/mês sem taxa de setup. Um cliente a mais já paga o sistema! Quer falar com um especialista?'
+        ];
+        let demoIndex = 0;
+
+        function demoEnviar() {
+            const input = document.getElementById('demo-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const messages = document.getElementById('demo-messages');
+            const userDiv = document.createElement('div');
+            userDiv.className = 'demo-msg user';
+            userDiv.textContent = msg;
+            messages.appendChild(userDiv);
+            input.value = '';
+            messages.scrollTop = messages.scrollHeight;
+
+            setTimeout(() => {
+                const botDiv = document.createElement('div');
+                botDiv.className = 'demo-msg bot';
+                botDiv.textContent = respostas[demoIndex % respostas.length];
+                messages.appendChild(botDiv);
+                messages.scrollTop = messages.scrollHeight;
+                demoIndex++;
+            }, 800);
+        }
+    </script>
+</body>
+</html>
