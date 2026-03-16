@@ -73,6 +73,57 @@
         .info-item h3 { font-size: 18px; margin-bottom: 8px; opacity: 0.85; }
         .info-item p { font-size: 15px; line-height: 1.7; }
 
+        /* COMO TRABALHAMOS */
+        .como-trabalhamos {
+            padding: 60px 40px;
+            background: #f9f5f0;
+            text-align: center;
+        }
+        .como-trabalhamos h2 { font-size: 28px; color: #2d6a4f; margin-bottom: 8px; }
+        .como-trabalhamos > p { color: #777; margin-bottom: 40px; font-size: 16px; }
+        .como-grid {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto 40px;
+        }
+        .como-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px 20px;
+            width: 220px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+            text-align: center;
+            border-top: 4px solid #40916c;
+        }
+        .como-card .icone { font-size: 32px; margin-bottom: 12px; }
+        .como-card p { font-size: 14px; color: #555; line-height: 1.6; }
+        .avaliacao-box {
+            background: linear-gradient(135deg, #2d6a4f, #40916c);
+            color: white;
+            border-radius: 20px;
+            padding: 36px 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .avaliacao-box h3 { font-size: 22px; margin-bottom: 12px; }
+        .avaliacao-box p { font-size: 15px; opacity: 0.9; line-height: 1.7; margin-bottom: 24px; }
+        .avaliacao-box button {
+            background: white;
+            color: #2d6a4f;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .avaliacao-box button:hover { transform: scale(1.05); }
+
         .chat-section { padding: 50px 40px; text-align: center; }
         .chat-section h2 { font-size: 26px; color: #2d6a4f; margin-bottom: 8px; }
         .chat-section > p { color: #777; margin-bottom: 30px; }
@@ -164,7 +215,6 @@
         }
         .input-row button:hover { opacity: 0.9; }
 
-        /* BOTÃO WHATSAPP FLUTUANTE */
         .whatsapp-float {
             position: fixed;
             bottom: 24px;
@@ -182,20 +232,16 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
             animation: pulse 2s infinite;
         }
-        .whatsapp-float:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 28px rgba(37,211,102,0.6);
-        }
+        .whatsapp-float:hover { transform: scale(1.05); }
         @keyframes pulse {
             0% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
             50% { box-shadow: 0 4px 30px rgba(37,211,102,0.7); }
             100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
         }
 
-        /* BOTÃO WHATSAPP NO CHAT */
         .whatsapp-chat-btn {
             background: #25d366;
             color: white;
@@ -246,9 +292,8 @@
 </head>
 <body>
 
-    <!-- BOTÃO FLUTUANTE WHATSAPP -->
     <button class="whatsapp-float" onclick="abrirWhatsApp()">
-        <span>💬</span> Agendar Avaliação Gratuita
+        💬 Agendar Avaliação Gratuita
     </button>
 
     <div class="header">
@@ -268,8 +313,8 @@
     <div class="hero">
         <h2>Cuidando do seu movimento e bem-estar</h2>
         <p>Tratamentos especializados em fisioterapia ortopédica e neurológica com atendimento personalizado e humanizado.</p>
-        <button class="hero-btn" onclick="document.querySelector('.chat-section').scrollIntoView({behavior:'smooth'})">
-            💬 Agendar Consulta
+        <button class="hero-btn" onclick="document.querySelector('.como-trabalhamos').scrollIntoView({behavior:'smooth'})">
+            💬 Saiba Como Trabalhamos
         </button>
     </div>
 
@@ -310,9 +355,46 @@
         </div>
     </div>
 
+    <!-- COMO TRABALHAMOS -->
+    <div class="como-trabalhamos">
+        <h2>Como Trabalhamos</h2>
+        <p>Transparência e cuidado em cada detalhe do seu tratamento</p>
+        <div class="como-grid">
+            <div class="como-card">
+                <div class="icone">👤</div>
+                <p>Sessões <strong>individuais e particulares</strong> — atendemos um paciente por vez.</p>
+            </div>
+            <div class="como-card">
+                <div class="icone">📋</div>
+                <p><strong>Não aceitamos convênio</strong>, mas emitimos recibo para reembolso no seu convênio.</p>
+            </div>
+            <div class="como-card">
+                <div class="icone">⏱️</div>
+                <p>Sessões de <strong>30 ou 55 minutos</strong> conforme a necessidade e diagnóstico do paciente.</p>
+            </div>
+            <div class="como-card">
+                <div class="icone">🔧</div>
+                <p>Todos os <strong>aparelhos já estão inclusos</strong> no valor da sessão.</p>
+            </div>
+            <div class="como-card">
+                <div class="icone">💰</div>
+                <p>Valores <strong>acessíveis</strong> com várias formas de pagamento disponíveis.</p>
+            </div>
+            <div class="como-card">
+                <div class="icone">📄</div>
+                <p>Fornecemos <strong>atestado</strong> para o paciente e acompanhante quando necessário.</p>
+            </div>
+        </div>
+        <div class="avaliacao-box">
+            <h3>🎉 Avaliação 100% Gratuita!</h3>
+            <p>Durante a avaliação verificamos o avanço da doença, explicamos os tratamentos que serão realizados e passamos os valores finais. Sem compromisso!</p>
+            <button onclick="abrirWhatsApp()">✅ Quero Agendar Minha Avaliação Gratuita</button>
+        </div>
+    </div>
+
     <div class="chat-section">
         <h2>Olá, como podemos te ajudar? 😊</h2>
-        <p>Estamos aqui para tirar suas dúvidas e agendar sua avaliação gratuita!</p>
+        <p>Converse com nossa assistente e tire todas as suas dúvidas!</p>
         <div class="chat-container">
             <div class="chat-header">
                 <div class="chat-avatar">🌿</div>
@@ -353,8 +435,7 @@
         function abrirWhatsApp(nome, diagnostico) {
             let msg = 'Olá! Gostaria de agendar uma avaliação gratuita na Clínica Bianca Bernal.';
             if (nome) msg = `Olá! Meu nome é ${nome} e gostaria de agendar uma avaliação gratuita. Diagnóstico: ${diagnostico}`;
-            const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
-            window.open(url, '_blank');
+            window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         function mostrarBotaoWhatsApp(nome, diagnostico) {
@@ -373,8 +454,6 @@
 
         function verificarAgendamento(agendamento) {
             if (!agendamento) return;
-
-            // Salva no localStorage para o painel
             const agendamentos = JSON.parse(localStorage.getItem('agendamentos') || '[]');
             agendamentos.push({
                 nome: agendamento.nome,
@@ -384,20 +463,16 @@
                 data: new Date().toISOString()
             });
             localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
-
-            // Mostra botão WhatsApp no chat
             mostrarBotaoWhatsApp(agendamento.nome, agendamento.diagnostico);
-
-            // Envia email para a clínica
             emailjs.send('service_brxrzbw', 'template_6y4l5ch', {
                 nome_paciente: agendamento.nome,
                 telefone: agendamento.telefone,
                 horario: agendamento.horario,
                 message: `Diagnóstico: ${agendamento.diagnostico}`
             }).then(() => {
-                console.log('Email enviado para a clínica!');
+                console.log('Email enviado!');
             }).catch((err) => {
-                console.error('Erro ao enviar email:', err);
+                console.error('Erro:', err);
             });
         }
 
@@ -405,12 +480,10 @@
             const input = document.getElementById('input');
             const mensagem = input.value.trim();
             if (!mensagem) return;
-
             adicionarMensagem(mensagem, 'user');
             input.value = '';
             document.getElementById('quick-replies').style.display = 'none';
             document.getElementById('typing').textContent = 'Assistente está digitando...';
-
             try {
                 const resposta = await fetch('/chat', {
                     method: 'POST',
