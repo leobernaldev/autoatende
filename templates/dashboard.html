@@ -22,7 +22,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: #0a0e1a; color: #fff; min-height: 100vh; }
 
-        /* LOADING */
         .loading-screen {
             position: fixed; inset: 0;
             background: #0a0e1a;
@@ -40,7 +39,6 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* NAV */
         nav {
             background: rgba(10,14,26,0.98);
             border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -57,15 +55,12 @@
             border-radius: 20px; font-size: 13px; cursor: pointer;
         }
 
-        /* MAIN */
         .main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
 
-        /* WELCOME */
         .welcome { margin-bottom: 36px; }
         .welcome h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
         .welcome p { color: #64748b; font-size: 15px; }
 
-        /* PLAN CARD */
         .plan-card {
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.08);
@@ -79,10 +74,7 @@
         .plan-card.none { border-color: rgba(255,255,255,0.06); }
         .plan-info h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
         .plan-info p { font-size: 14px; color: #64748b; }
-        .plan-badge {
-            padding: 6px 16px; border-radius: 20px;
-            font-size: 13px; font-weight: 700;
-        }
+        .plan-badge { padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; }
         .badge-active { background: rgba(74,222,128,0.15); color: #4ade80; }
         .badge-pending { background: rgba(251,191,36,0.15); color: #fbbf24; }
         .badge-none { background: rgba(255,255,255,0.06); color: #64748b; }
@@ -93,7 +85,6 @@
             font-size: 14px; font-weight: 700; cursor: pointer;
         }
 
-        /* STATS GRID */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 28px; }
         .stat-card {
             background: rgba(255,255,255,0.04);
@@ -104,10 +95,8 @@
         .stat-card .stat-num { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #4f8ef7, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .stat-card .stat-label { font-size: 13px; color: #64748b; margin-top: 4px; }
 
-        /* SECTIONS */
         .section-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #e2e8f0; }
 
-        /* SITE CARD */
         .site-card {
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.08);
@@ -118,18 +107,13 @@
         }
         .site-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
         .site-info a { font-size: 14px; color: #4f8ef7; text-decoration: none; }
-        .site-info a:hover { text-decoration: underline; }
         .site-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #4ade80; }
         .green-dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; }
         .site-actions { display: flex; gap: 10px; }
-        .site-btn {
-            padding: 9px 18px; border-radius: 10px;
-            font-size: 13px; font-weight: 600; cursor: pointer; border: none;
-        }
+        .site-btn { padding: 9px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
         .site-btn.primary { background: linear-gradient(135deg, #4f8ef7, #7c3aed); color: white; }
         .site-btn.secondary { background: rgba(255,255,255,0.07); color: #94a3b8; }
 
-        /* ACTIONS GRID */
         .actions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
         .action-card {
             background: rgba(255,255,255,0.04);
@@ -143,12 +127,8 @@
         .action-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
         .action-card p { font-size: 12px; color: #64748b; }
 
-        /* LOCKED OVERLAY */
-        .locked {
-            position: relative;
-            pointer-events: none;
-            opacity: 0.4;
-        }
+        .locked { position: relative; pointer-events: none; opacity: 0.4; }
+
         .lock-banner {
             background: rgba(251,191,36,0.1);
             border: 1px solid rgba(251,191,36,0.3);
@@ -164,7 +144,6 @@
             white-space: nowrap;
         }
 
-        /* ADMIN SECTION */
         .admin-section {
             background: rgba(124,58,237,0.08);
             border: 1px solid rgba(124,58,237,0.3);
@@ -174,21 +153,21 @@
         .admin-section h2 { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #a78bfa; }
         .admin-table { width: 100%; border-collapse: collapse; }
         .admin-table th { text-align: left; font-size: 12px; color: #64748b; padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-        .admin-table td { padding: 12px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .admin-table td { padding: 12px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
         .admin-table tr:last-child td { border-bottom: none; }
-        .admin-input { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 6px 12px; border-radius: 8px; font-size: 13px; width: 140px; }
+        .admin-select { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 6px 12px; border-radius: 8px; font-size: 13px; width: 160px; }
+        .admin-text-input { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 6px 10px; border-radius: 8px; font-size: 12px; width: 180px; display: block; margin-top: 4px; }
         .admin-btn { background: linear-gradient(135deg, #4f8ef7, #7c3aed); color: white; border: none; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .admin-btn.danger { background: rgba(248,113,113,0.3); margin-left: 6px; }
     </style>
 </head>
 <body>
 
-<!-- LOADING -->
 <div class="loading-screen" id="loading">
     <div class="spinner"></div>
     <p style="color:#64748b;font-size:14px;">Carregando seu painel...</p>
 </div>
 
-<!-- NAV -->
 <nav>
     <div class="nav-logo">⚡ AutoAtende</div>
     <div class="nav-user">
@@ -197,23 +176,19 @@
     </div>
 </nav>
 
-<!-- MAIN -->
 <div class="main" id="main-content" style="display:none">
 
-    <!-- WELCOME -->
     <div class="welcome">
         <h1>Olá, <span id="user-first-name"></span>! 👋</h1>
         <p>Bem-vindo ao seu painel AutoAtende</p>
     </div>
 
-    <!-- LOCK BANNER (mostrado se sem plano) -->
     <div class="lock-banner" id="lock-banner" style="display:none">
         <span style="font-size:24px;">🔒</span>
         <p>Você ainda não tem um plano ativo. Ative agora para liberar todos os recursos!</p>
         <button onclick="irParaPlanos()">Ver Planos</button>
     </div>
 
-    <!-- PLAN CARD -->
     <div class="plan-card" id="plan-card">
         <div class="plan-info">
             <h2 id="plan-name">Carregando...</h2>
@@ -225,7 +200,6 @@
         </div>
     </div>
 
-    <!-- STATS -->
     <div class="stats-grid" id="stats-grid">
         <div class="stat-card"><div class="stat-icon">👁️</div><div class="stat-num" id="stat-visitas">—</div><div class="stat-label">Visitas ao site</div></div>
         <div class="stat-card"><div class="stat-icon">💬</div><div class="stat-num" id="stat-conversas">—</div><div class="stat-label">Conversas iniciadas</div></div>
@@ -233,7 +207,6 @@
         <div class="stat-card"><div class="stat-icon">📧</div><div class="stat-num" id="stat-emails">—</div><div class="stat-label">Emails enviados</div></div>
     </div>
 
-    <!-- SITE CARD -->
     <div class="section-title">Seu site</div>
     <div class="site-card" id="site-card">
         <div class="site-info">
@@ -247,32 +220,14 @@
         </div>
     </div>
 
-    <!-- ACTIONS -->
     <div class="section-title">Ações rápidas</div>
     <div class="actions-grid">
-        <div class="action-card" onclick="falarSuporte()">
-            <div class="action-icon">✏️</div>
-            <h3>Editar informações</h3>
-            <p>Atualizar dados do seu negócio no chatbot</p>
-        </div>
-        <div class="action-card" onclick="falarSuporte()">
-            <div class="action-icon">🎨</div>
-            <h3>Mudar visual</h3>
-            <p>Solicitar alterações no design do site</p>
-        </div>
-        <div class="action-card" onclick="falarSuporte()">
-            <div class="action-icon">📊</div>
-            <h3>Ver agendamentos</h3>
-            <p>Acessar o painel de agendamentos</p>
-        </div>
-        <div class="action-card" onclick="falarSuporte()">
-            <div class="action-icon">🆙</div>
-            <h3>Fazer upgrade</h3>
-            <p>Evoluir para um plano mais completo</p>
-        </div>
+        <div class="action-card" onclick="falarSuporte()"><div class="action-icon">✏️</div><h3>Editar informações</h3><p>Atualizar dados do seu negócio no chatbot</p></div>
+        <div class="action-card" onclick="falarSuporte()"><div class="action-icon">🎨</div><h3>Mudar visual</h3><p>Solicitar alterações no design do site</p></div>
+        <div class="action-card" onclick="falarSuporte()"><div class="action-icon">📊</div><h3>Ver agendamentos</h3><p>Acessar o painel de agendamentos</p></div>
+        <div class="action-card" onclick="irParaPlanos()"><div class="action-icon">🆙</div><h3>Fazer upgrade</h3><p>Evoluir para um plano mais completo</p></div>
     </div>
 
-    <!-- ADMIN PANEL (só aparece para leobernaldev) -->
     <div class="admin-section" id="admin-section" style="display:none">
         <h2>⚡ Painel Admin — Gerenciar Clientes</h2>
         <table class="admin-table">
@@ -282,11 +237,12 @@
                     <th>Nome</th>
                     <th>Plano Atual</th>
                     <th>Atribuir Plano</th>
+                    <th>URL do Site</th>
                     <th>Ação</th>
                 </tr>
             </thead>
             <tbody id="admin-users-table">
-                <tr><td colspan="5" style="color:#64748b;text-align:center;padding:20px;">Carregando usuários...</td></tr>
+                <tr><td colspan="6" style="color:#64748b;text-align:center;padding:20px;">Carregando usuários...</td></tr>
             </tbody>
         </table>
     </div>
@@ -298,6 +254,7 @@
     const db = firebase.firestore();
     const ADMIN_EMAIL = 'leonardobernalgoncales@gmail.com';
     const WHATSAPP = '5511980130786';
+    let unsubscribe = null;
 
     auth.onAuthStateChanged(async user => {
         if (!user) {
@@ -309,10 +266,21 @@
         const firstName = (user.displayName || user.email.split('@')[0]).split(' ')[0];
         document.getElementById('user-first-name').textContent = firstName;
 
-        await carregarDados(user);
+        // Salva APENAS campos que não sobrescrevem plano/status
+        await db.collection('usuarios').doc(user.uid).set({
+            email: user.email,
+            nome: user.displayName || '',
+            ultimoAcesso: new Date().toISOString()
+        }, { merge: true });
 
-        document.getElementById('loading').classList.add('hidden');
-        document.getElementById('main-content').style.display = 'block';
+        // Listener em tempo real — atualiza UI automaticamente sem F5
+        unsubscribe = db.collection('usuarios').doc(user.uid).onSnapshot(doc => {
+            if (doc.exists) {
+                atualizarUI(doc.data());
+            }
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('main-content').style.display = 'block';
+        });
 
         if (user.email === ADMIN_EMAIL) {
             document.getElementById('admin-section').style.display = 'block';
@@ -320,125 +288,124 @@
         }
     });
 
-    async function carregarDados(user) {
-        try {
-            const doc = await db.collection('usuarios').doc(user.uid).get();
-            const dados = doc.exists ? doc.data() : {};
+    function atualizarUI(dados) {
+        const plano = dados.plano || null;
+        const status = dados.status || 'none';
+        const siteUrl = dados.siteUrl || null;
+        const siteNome = dados.siteNome || null;
 
-            const plano = dados.plano || null;
-            const status = dados.status || 'none';
-            const siteUrl = dados.siteUrl || null;
-            const siteNome = dados.siteNome || null;
+        const planCard = document.getElementById('plan-card');
+        const planName = document.getElementById('plan-name');
+        const planDesc = document.getElementById('plan-desc');
+        const planBadge = document.getElementById('plan-badge');
+        const planBtn = document.getElementById('plan-action-btn');
 
-            // Plan card
-            const planCard = document.getElementById('plan-card');
-            const planName = document.getElementById('plan-name');
-            const planDesc = document.getElementById('plan-desc');
-            const planBadge = document.getElementById('plan-badge');
-            const planBtn = document.getElementById('plan-action-btn');
+        planCard.className = 'plan-card';
 
-            if (status === 'active' && plano) {
-                planCard.classList.add('active');
-                planName.textContent = `Plano ${plano}`;
-                planDesc.textContent = 'Seu plano está ativo. Aproveite todos os recursos!';
-                planBadge.textContent = '✅ Ativo';
-                planBadge.className = 'plan-badge badge-active';
-                planBtn.textContent = 'Fazer upgrade';
+        if (status === 'active' && plano) {
+            planCard.classList.add('active');
+            planName.textContent = `Plano ${plano}`;
+            planDesc.textContent = 'Seu plano está ativo. Aproveite todos os recursos!';
+            planBadge.textContent = '✅ Ativo';
+            planBadge.className = 'plan-badge badge-active';
+            planBtn.textContent = 'Fazer upgrade';
 
-                // Stats
-                document.getElementById('stat-visitas').textContent = dados.visitas || '0';
-                document.getElementById('stat-conversas').textContent = dados.conversas || '0';
-                document.getElementById('stat-agendamentos').textContent = dados.agendamentos || '0';
-                document.getElementById('stat-emails').textContent = dados.emails || '0';
+            document.getElementById('stat-visitas').textContent = dados.visitas || '0';
+            document.getElementById('stat-conversas').textContent = dados.conversas || '0';
+            document.getElementById('stat-agendamentos').textContent = dados.agendamentos || '0';
+            document.getElementById('stat-emails').textContent = dados.emails || '0';
 
-                // Site
-                if (siteUrl) {
-                    document.getElementById('site-name').textContent = siteNome || 'Seu site';
-                    const link = document.getElementById('site-link');
-                    link.textContent = siteUrl;
-                    link.href = siteUrl;
-                } else {
-                    document.getElementById('site-name').textContent = 'Em configuração';
-                    document.getElementById('site-link').textContent = 'Será entregue em até 48h';
-                }
+            document.getElementById('stats-grid').classList.remove('locked');
+            document.getElementById('site-card').classList.remove('locked');
+            document.getElementById('lock-banner').style.display = 'none';
 
-            } else if (status === 'pending') {
-                planCard.classList.add('pending');
-                planName.textContent = plano ? `Plano ${plano} — Aguardando confirmação` : 'Plano solicitado';
-                planDesc.textContent = 'Seu pagamento está sendo verificado. Em breve seu plano será ativado!';
-                planBadge.textContent = '⏳ Pendente';
-                planBadge.className = 'plan-badge badge-pending';
-                planBtn.style.display = 'none';
-                document.getElementById('lock-banner').style.display = 'none';
-                document.getElementById('stats-grid').classList.add('locked');
-
+            if (siteUrl) {
+                document.getElementById('site-name').textContent = siteNome || 'Seu site';
+                const link = document.getElementById('site-link');
+                link.textContent = siteUrl;
+                link.href = siteUrl;
             } else {
-                planCard.classList.add('none');
-                planName.textContent = 'Nenhum plano ativo';
-                planDesc.textContent = 'Escolha um plano para começar a automatizar seu atendimento.';
-                planBadge.textContent = '— Sem plano';
-                planBadge.className = 'plan-badge badge-none';
-                planBtn.textContent = '🚀 Ver Planos';
-                document.getElementById('lock-banner').style.display = 'flex';
-                document.getElementById('stats-grid').classList.add('locked');
-                document.getElementById('site-card').classList.add('locked');
+                document.getElementById('site-name').textContent = 'Em configuração';
+                document.getElementById('site-link').textContent = 'Será entregue em até 48h';
             }
 
-        } catch(e) {
-            console.error(e);
+        } else if (status === 'pending') {
+            planCard.classList.add('pending');
+            planName.textContent = plano ? `Plano ${plano} — Aguardando confirmação` : 'Plano solicitado';
+            planDesc.textContent = 'Seu pagamento está sendo verificado. Em breve seu plano será ativado!';
+            planBadge.textContent = '⏳ Pendente';
+            planBadge.className = 'plan-badge badge-pending';
+            planBtn.style.display = 'none';
+            document.getElementById('lock-banner').style.display = 'none';
+            document.getElementById('stats-grid').classList.add('locked');
+
+        } else {
+            planCard.classList.add('none');
+            planName.textContent = 'Nenhum plano ativo';
+            planDesc.textContent = 'Escolha um plano para começar a automatizar seu atendimento.';
+            planBadge.textContent = '— Sem plano';
+            planBadge.className = 'plan-badge badge-none';
+            planBtn.textContent = '🚀 Ver Planos';
+            planBtn.style.display = 'block';
+            document.getElementById('lock-banner').style.display = 'flex';
+            document.getElementById('stats-grid').classList.add('locked');
+            document.getElementById('site-card').classList.add('locked');
         }
     }
 
     async function carregarUsuariosAdmin() {
-        try {
-            const snap = await db.collection('usuarios').get();
-            const tbody = document.getElementById('admin-users-table');
+        const snap = await db.collection('usuarios').get();
+        const tbody = document.getElementById('admin-users-table');
 
-            if (snap.empty) {
-                tbody.innerHTML = '<tr><td colspan="5" style="color:#64748b;text-align:center;padding:20px;">Nenhum usuário ainda.</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = '';
-            snap.forEach(doc => {
-                const d = doc.data();
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td style="color:#94a3b8">${d.email || '—'}</td>
-                    <td>${d.nome || '—'}</td>
-                    <td>
-                        <span class="plan-badge ${d.status === 'active' ? 'badge-active' : d.status === 'pending' ? 'badge-pending' : 'badge-none'}">
-                            ${d.plano ? d.plano : 'Sem plano'}
-                        </span>
-                    </td>
-                    <td>
-                        <select class="admin-input" id="select-${doc.id}">
-                            <option value="">Sem plano</option>
-                            <option value="Starter" ${d.plano==='Starter'?'selected':''}>Starter R$99</option>
-                            <option value="Basic" ${d.plano==='Basic'?'selected':''}>Basic R$149</option>
-                            <option value="Pro" ${d.plano==='Pro'?'selected':''}>Pro R$199</option>
-                            <option value="Enterprise" ${d.plano==='Enterprise'?'selected':''}>Enterprise R$499</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button class="admin-btn" onclick="ativarPlano('${doc.id}', '${d.email}')">✅ Ativar</button>
-                        <button class="admin-btn" style="background:rgba(248,113,113,0.3);margin-left:6px;" onclick="revogarPlano('${doc.id}')">❌ Revogar</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        } catch(e) {
-            console.error(e);
+        if (snap.empty) {
+            tbody.innerHTML = '<tr><td colspan="6" style="color:#64748b;text-align:center;padding:20px;">Nenhum usuário ainda.</td></tr>';
+            return;
         }
+
+        tbody.innerHTML = '';
+        snap.forEach(doc => {
+            const d = doc.data();
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="color:#94a3b8;font-size:13px;">${d.email || '—'}</td>
+                <td>${d.nome || '—'}</td>
+                <td>
+                    <span class="plan-badge ${d.status === 'active' ? 'badge-active' : d.status === 'pending' ? 'badge-pending' : 'badge-none'}">
+                        ${d.plano ? d.plano : 'Sem plano'}
+                    </span>
+                </td>
+                <td>
+                    <select class="admin-select" id="select-${doc.id}">
+                        <option value="">Sem plano</option>
+                        <option value="Starter" ${d.plano==='Starter'?'selected':''}>Starter R$99</option>
+                        <option value="Basic" ${d.plano==='Basic'?'selected':''}>Basic R$149</option>
+                        <option value="Pro" ${d.plano==='Pro'?'selected':''}>Pro R$199</option>
+                        <option value="Enterprise" ${d.plano==='Enterprise'?'selected':''}>Enterprise R$499</option>
+                    </select>
+                </td>
+                <td>
+                    <input class="admin-text-input" id="url-${doc.id}" placeholder="https://seusite.com" value="${d.siteUrl || ''}">
+                    <input class="admin-text-input" id="nome-${doc.id}" placeholder="Nome do site" value="${d.siteNome || ''}">
+                </td>
+                <td>
+                    <button class="admin-btn" onclick="ativarPlano('${doc.id}', '${d.email}')">✅ Ativar</button>
+                    <button class="admin-btn danger" onclick="revogarPlano('${doc.id}')">❌ Revogar</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
     }
 
     async function ativarPlano(uid, email) {
         const plano = document.getElementById(`select-${uid}`).value;
+        const siteUrl = document.getElementById(`url-${uid}`).value;
+        const siteNome = document.getElementById(`nome-${uid}`).value;
         if (!plano) { alert('Selecione um plano!'); return; }
         await db.collection('usuarios').doc(uid).set({
             plano: plano,
             status: 'active',
-            email: email,
+            siteUrl: siteUrl || null,
+            siteNome: siteNome || null,
             ativadoEm: new Date().toISOString()
         }, { merge: true });
         alert(`✅ Plano ${plano} ativado para ${email}!`);
@@ -448,14 +415,19 @@
     async function revogarPlano(uid) {
         await db.collection('usuarios').doc(uid).set({
             plano: null,
-            status: 'none'
+            status: 'none',
+            siteUrl: null,
+            siteNome: null
         }, { merge: true });
         alert('Plano revogado!');
         carregarUsuariosAdmin();
     }
 
-    function irParaPlanos() { window.location.href = '/vendas#planos'; }
-    function logout() { auth.signOut().then(() => window.location.href = '/vendas'); }
+    function irParaPlanos() { window.location.href = '/vendas'; }
+    function logout() {
+        if (unsubscribe) unsubscribe();
+        auth.signOut().then(() => window.location.href = '/vendas');
+    }
     function abrirSite() {
         const link = document.getElementById('site-link').href;
         if (link && link !== '#') window.open(link, '_blank');
@@ -465,17 +437,6 @@
         const msg = `Olá! Sou cliente AutoAtende (${user ? user.email : ''}) e preciso de suporte.`;
         window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
     }
-
-    // Salva dados do usuário no Firestore ao logar
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            db.collection('usuarios').doc(user.uid).set({
-                email: user.email,
-                nome: user.displayName || '',
-                ultimoAcesso: new Date().toISOString()
-            }, { merge: true });
-        }
-    });
 </script>
 </body>
 </html>
