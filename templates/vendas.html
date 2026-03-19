@@ -598,14 +598,31 @@
 
     function irParaPlanos() { document.getElementById('planos').scrollIntoView({behavior:'smooth'}); }
 
-    function comprar(plano, preco) {
+    async function comprar(plano, preco) {
         const user = auth.currentUser;
         if (!user) {
             abrirModal();
             return;
         }
-        const msg = `Olá! Tenho uma conta no AutoAtende (${user.email}) e gostaria de contratar o plano ${plano} (${preco}).`;
-        window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+        const btns = document.querySelectorAll('.pricing-btn');
+        btns.forEach(b => { b.textContent = 'Aguarde...'; b.disabled = true; });
+        try {
+            const resp = await fetch('/criar-assinatura', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ plano, email: user.email, uid: user.uid })
+            });
+            const data = await resp.json();
+            if (data.init_point) {
+                window.location.href = data.init_point;
+            } else {
+                alert('Erro ao criar assinatura. Tente novamente.');
+                btns.forEach(b => { b.textContent = 'Começar agora'; b.disabled = false; });
+            }
+        } catch(e) {
+            alert('Erro de conexão. Tente novamente.');
+            btns.forEach(b => { b.textContent = 'Começar agora'; b.disabled = false; });
+        }
     }
 
     function toggleFaq(el) { el.classList.toggle('open'); }
