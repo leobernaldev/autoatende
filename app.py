@@ -3,11 +3,13 @@ from groq import Groq
 from dotenv import load_dotenv
 import os
 import re
+import mercadopago
 
 load_dotenv()
 
 app = Flask(__name__)
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+sdk = mercadopago.SDK(os.getenv("MP_ACCESS_TOKEN"))
 conversas = {}
 
 SYSTEM_PROMPT = """Você é a assistente virtual da Clínica de Fisioterapia Bianca Bernal, localizada na Rua Alexandre Cheid, 216, São Paulo - SP.
@@ -42,6 +44,13 @@ Clique no botão abaixo para agendar sua avaliação gratuita pelo WhatsApp! �
 Depois responda EXATAMENTE numa linha separada:
 AGENDAMENTO_CONFIRMADO|nome=NOME_AQUI|telefone=TELEFONE_AQUI|horario=A combinar|diagnostico=DIAGNOSTICO_AQUI"""
 
+PLANOS = {
+    "Starter":    {"preco": 99,  "nome": "AutoAtende Starter"},
+    "Basic":      {"preco": 149, "nome": "AutoAtende Basic"},
+    "Pro":        {"preco": 199, "nome": "AutoAtende Pro"},
+    "Enterprise": {"preco": 499, "nome": "AutoAtende Enterprise"},
+}
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -57,6 +66,59 @@ def vendas():
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
+
+@app.route('/criar-assinatura', methods=['POST'])
+def criar_assinatura():
+    data = request.json
+    plano = data.get('plano')
+    email = data.get('email')
+    uid = data.get('uid')
+
+    if plano not in PLANOS:
+        return jsonify({"erro": "Plano inválido"}), 400
+
+    info = PLANOS[plano]
+    base_url = request.host_url.rstrip('/')
+
+    preference_data = {
+        "items": [{
+            "title": info["nome"],
+            "quantity": 1,
+            "unit_price": float(info["preco"]),
+            "currency_id": "BRL"
+        }],
+        "payer": {"email": email},
+        "back_urls": {
+            "success": f"{base_url}/pagamento-sucesso?plano={plano}&uid={uid}",
+            "failure": f"{base_url}/dashboard",
+            "pending": f"{base_url}/dashboard"
+        },
+        "auto_return": "approved",
+        "external_reference": f"{uid}|{plano}"
+    }
+
+    result = sdk.preference().create(preference_data)
+    preference = result["response"]
+    return jsonify({"init_point": preference["init_point"]})
+
+@app.route('/pagamento-sucesso')
+def pagamento_sucesso():
+    return render_template('sucesso.html')
+
+@app.route('/webhook-mp', methods=['POST'])
+def webhook_mp():
+    data = request.json
+    if data.get('type') == 'payment':
+        payment_id = data['data']['id']
+        payment = sdk.payment().get(payment_id)
+        info = payment["response"]
+        if info.get('status') == 'approved':
+            ref = info.get('external_reference', '')
+            if '|' in ref:
+                uid, plano = ref.split('|', 1)
+                # Atualiza Firestore via Admin SDK seria ideal
+                # Por ora retorna 200 para o MP
+    return jsonify({"status": "ok"}), 200
 
 @app.route('/chat', methods=['POST'])
 def chat():
